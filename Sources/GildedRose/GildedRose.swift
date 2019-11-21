@@ -18,6 +18,8 @@ public class GildedRose {
                 continue
             case "Backstage passes to a TAFKAL80ETC concert":
                 updateBackstageQuality(with: item)
+            case "Conjured Mana Cake":
+                updateConjuredQuality(with: item)
             default:
                 updateNormalQuality(with: item)
             }
@@ -44,6 +46,13 @@ public class GildedRose {
         if item.sellIn <= 0 {
             item.quality = 0
         }
+        validateQuality(with: &item.quality)
+        
+        item.sellIn -= 1
+    }
+    
+    func updateConjuredQuality(with item: Item) {
+        item.quality = item.sellIn > 0 ? item.quality - 2 : item.quality - 4
         validateQuality(with: &item.quality)
         
         item.sellIn -= 1

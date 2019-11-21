@@ -85,6 +85,24 @@ class GildedRoseTests: XCTestCase {
         XCTAssertEqual(app.items.first?.quality, 0)
     }
     
+    func testConjuredDegradeQuality() {
+        let item = Item(name: "Conjured Mana Cake", sellIn: 10, quality: 20)
+        let app = GildedRose(items: [item])
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items.first?.sellIn, 9)
+        XCTAssertEqual(app.items.first?.quality, 18)
+    }
+    
+    func testConjuredDegradeTwiceQuality() {
+        let item = Item(name: "Conjured Mana Cake", sellIn: -1, quality: 20)
+        let app = GildedRose(items: [item])
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items.first?.sellIn, -2)
+        XCTAssertEqual(app.items.first?.quality, 16)
+    }
+    
     func testMaxQuality() {
         let item = Item(name: "Aged Brie", sellIn: -1, quality: 49)
         let app = GildedRose(items: [item])
@@ -115,7 +133,9 @@ class GildedRoseTests: XCTestCase {
             ("testBackstageQualityForBetween1to5Days", testBackstageQualityForBetween1to5Days),
             ("testBackstageQualityForLessThan1Day", testBackstageQualityForLessThan1Day),
             ("testMaxQuality", testMaxQuality),
-            ("testMinQuality", testMinQuality)
+            ("testMinQuality", testMinQuality),
+            ("testConjuredDegradeQuality", testConjuredDegradeQuality),
+            ("testConjuredDegradeTwiceQuality", testConjuredDegradeTwiceQuality)
         ]
     }
 }
